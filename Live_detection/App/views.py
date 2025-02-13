@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 import random,time
 from .models import Display
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.utils.timezone import now
 # Create your views here.
 #
@@ -46,22 +46,70 @@ def loginUser(request):
 
 def create_random_array(request):
     count=0
-    while True:
+ 
 
         # delay=random.uniform()
     
-        array=[[random.randint(0,9) for _ in range(4)] for _ in range(3)]
-        display=Display.objects.create(array=array,updated=now())
-        time.sleep(random.randint(1,4))
-        count=count+1
+        # array=[[random.randint(0,9) for _ in range(4)] for _ in range(3)]
+        # display=Display.objects.create(array=array,updated=now())
+        # time.sleep(random.randint(1,4))
+        # count=count+1
         
-        if count==5:
-            break
-    new_display=Display.objects.last()
+        # if count==5:
+        #     break
+    new_display=Display.objects.all()
     context={"display":new_display}
-    return render(request,"new.html",context)
+    return render(request,"main.html",context)
 
 
 
+def signupUser(request):
+    if request.method=="POST":
+        username=request.POST.get("name")
+        email=request.POST.get("email")
+        password=request.POST.get("password")
+
+        
+        if User.objects.filter(username=username).exists():
+            return HttpResponse("User already exists")
+        else:
+
+
+            user=User.objects.create(username=username,email=email,password=password)
+            user.save()
+            login(request,user)
+            return redirect("home")
+    return render(request,'signup')
+
+
+            
+def generate_array(request):
+    array=[[random.randint(0,9) for _ in range(4)] for _ in range(3)]
+    display=Display.objects.create(array=array,updated=now())
+    time.sleep(random.randint(1,3))
+    return  redirect('generate-num')
     
 
+
+
+
+
+
+
+def delete(request):
+    display=Display.objects.all().delete()
+    return redirect('home')
+
+
+
+
+            
+
+
+
+
+# def del
+
+def logout(request):
+    logout(request)
+    return redirect('login')

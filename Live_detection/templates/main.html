@@ -63,7 +63,7 @@
 
         th {
             background: blue;
-            color: white;
+            color:white;
         }
 
         tbody tr:nth-child(even) {
@@ -93,11 +93,9 @@
 
    </header>
     
-    <div>
-        <a href="login.html" class="logout-btn">Logout</a>
-    </div>
+    
 
-    <div class="container">
+    {% comment %} <div class="container">
         <div class="segment">
             <div class="digit">1</div>
             <div class="digit">2</div>
@@ -118,7 +116,7 @@
             <div class="digit">1</div>
             <div class="digit">2</div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
     <hr/>
 
@@ -131,22 +129,26 @@
                 </tr>
             </thead>
             <tbody>
+
+                {% for dis in display %}
+                
+                
+
                 <tr>
-                    <td>12:00:01</td>
-                    <td>1234 5678 9012</td>
+                    <td>{{dis.updated}}</td>
+                    <td>{{dis.array}}</td>
                 </tr>
-                <tr>
-                    <td>12:00:05</td>
-                    <td>9876 5432 1098</td>
-                </tr>
-                <tr>
-                    <td>12:00:10</td>
-                    <td>4567 8901 2345</td>
-                </tr>
+                
+                {% endfor %}
             </tbody>
         </table>
     </div>
     
+    <div>
+        <a href="{% url 'delete' %}" class="logout-btn">Delete</a>
+        <a href="{% url 'generate' %}" class="logout-btn">Generate</a>
+
+    </div>
 
 </body>
-</html>()
+</html>
