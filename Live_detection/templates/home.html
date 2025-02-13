@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Home</title>
     <style>
-        /* Styles are fine as is */
+        login {
+           
+        }
     </style>
 </head>
 <body>
@@ -13,8 +15,10 @@
       <h1>Live Data Transmission</h1>
    </header>
 
-    <div>
+    <div class>
         <a href="{% url 'login' %}" class="logout-btn">Login</a>
+        <a href="{% url 'signup' %}" class="logout-btn" >Signup</a>
+
     </div>
     
     <!-- Modified button to trigger AJAX -->
@@ -43,7 +47,7 @@
     <hr/>
 
     <div class="table-container">
-        <table>
+        {% comment %} <table>
             <thead>
                 <tr>
                     <th>Timestamp</th>
@@ -56,12 +60,14 @@
                     <td id="array">{{ display.array|join:" " }}</td>
                 </tr>
             </tbody>
-        </table>
+        </table> {% endcomment %}
     </div>
 
     <script>
-        // Add event listener to the Generate button
-        document.getElementById('generate-button').addEventListener('click', function() {
+
+        // Add eventa listener to the Generate button
+        document.get
+        ElementById('generate-button').addEventListener('click', function() {
             fetch('/generate_num/')  // Send request to your view
                 .then(response => response.json())
                 .then(data => {

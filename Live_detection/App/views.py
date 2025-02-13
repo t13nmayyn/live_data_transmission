@@ -79,7 +79,7 @@ def signupUser(request):
             user.save()
             login(request,user)
             return redirect("home")
-    return render(request,'signup')
+    return render(request,'signup.html')
 
 
             
