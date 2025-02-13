@@ -1,5 +1,5 @@
 from django.db import models
-
+import time
 # Create your models here.
 class Display(models.Model):
     array=models.JSONField()

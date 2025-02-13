@@ -16,7 +16,9 @@
     <div>
         <a href="login.html" class="logout-btn">Logout</a>
     </div>
-    <a href="{% url 'generate-num' %}">Generate</a>
+    
+    <!-- Modified button to trigger AJAX -->
+    <a href="{% url 'generate-num' %}">generate</a>
 
     <div class="container">
         <div class="segment">
@@ -50,34 +52,32 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ display.updated }}</td>
-                    <td>{{ display.array|join:" " }}</td>
+                    <td id="timestamp">{{ display.updated }}</td>
+                    <td id="array">{{ display.array|join:" " }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <script>
-
-        function updateArray() {
-                fetch('/generate_num/')
-                    .then(response => response.json())
-                    .then(data => {
-                        // Update the segments with the new array
-                        const segments = document.querySelectorAll('.segment');
-                        data.array.forEach((row, rowIndex) => {
-                            row.forEach((digit, colIndex) => {
-                                segments[rowIndex].children[colIndex].textContent = digit;
-                            });
+        // Add event listener to the Generate button
+        document.getElementById('generate-button').addEventListener('click', function() {
+            fetch('/generate_num/')  // Send request to your view
+                .then(response => response.json())
+                .then(data => {
+                    // Update the segments with the new array
+                    const segments = document.querySelectorAll('.segment');
+                    data.array.forEach((row, rowIndex) => {
+                        row.forEach((digit, colIndex) => {
+                            segments[rowIndex].children[colIndex].textContent = digit;
                         });
-        
-                        // Update timestamp
-                        document.querySelector('#timestamp').textContent = data.updated;
                     });
-            }
-        
-            setInterval(updateArray, 5000); // Update every 5 seconds
-                
+
+                    // Update timestamp and array in the table
+                    document.querySelector('#timestamp').textContent = data.updated;
+                    document.querySelector('#array').textContent = data.array.join(" ");
+                });
+        });
     </script>
 </body>
 </html>

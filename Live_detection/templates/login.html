@@ -65,13 +65,18 @@
 <body>
 
     <div class="login">
-        <form action=""></form>
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
         <h2>Login</h2>
-        <input type="text" id="Username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <a href="home.html" class="home">Login</a>
-        <a href="signup.html" class="signup">Signup</a> 
-        </form>
+        <input type="text" id="Username" placeholder="Username",name="username">
+        <input type="password" id="password" placeholder="Password",name="password">
+        {% comment %} <a href="" class="home">Login</a> {% endcomment %}
+        
+        <button type="submit">Submit</button>
+        
+    </form>
+    <a href="signup.html" class="signup">Signup</a> 
+        
     </div>
 
     
