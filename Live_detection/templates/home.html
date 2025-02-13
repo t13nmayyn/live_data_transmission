@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        /* Styles are fine as is */
+    </style>
+</head>
+<body>
+   <header>
+      <h1>Live Data Transmission</h1>
+   </header>
+
+    <div>
+        <a href="login.html" class="logout-btn">Logout</a>
+    </div>
+    <a href="{% url 'generate-num' %}">Generate</a>
+
+    <div class="container">
+        <div class="segment">
+            {% for digit in display.array.0 %}
+                <div class="digit">{{ digit }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="segment">
+            {% for digit in display.array.1 %}
+                <div class="digit">{{ digit }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="segment">
+            {% for digit in display.array.2 %}
+                <div class="digit">{{ digit }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Number Sequence</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ display.updated }}</td>
+                    <td>{{ display.array|join:" " }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+        function updateArray() {
+                fetch('/generate_num/')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the segments with the new array
+                        const segments = document.querySelectorAll('.segment');
+                        data.array.forEach((row, rowIndex) => {
+                            row.forEach((digit, colIndex) => {
+                                segments[rowIndex].children[colIndex].textContent = digit;
+                            });
+                        });
+        
+                        // Update timestamp
+                        document.querySelector('#timestamp').textContent = data.updated;
+                    });
+            }
+        
+            setInterval(updateArray, 5000); // Update every 5 seconds
+                
+    </script>
+</body>
+</html>
